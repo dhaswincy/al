@@ -213,14 +213,17 @@ function tryReset() {
    filenames below to match what's actually in each folder.
    ======================================================= */
 
+// NOTE: files are expected to sit in the SAME folder as this index.html
+// (flat, no subfolders) — filenames are already unique across sections
+// (rdbms1, wd1, os1, cp1, dld1 ...) so this is safe.
 const sections = {
-  "RDBMS":            { folder: "RDBMS",        files: ["rdbms1.docx","rdbms2.docx","rdbms3.docx","rdbms4.doc","rdbms5.doc","rdbms6.docx","rdbms7.docx","rdbms8.docx","rdbms9.docx","rdbms10.docx"] },
-  "Web Designing":     { folder: "WebDesigning",  files: ["wd1.doc","wd2.doc","wd3.doc","wd4.doc","wd5.doc","wd6.doc","wd7.doc","wd8.doc","wd9.doc","wd10.doc"] },
-  "Operating System":  { folder: "OS",            files: ["os1.docx","os2.docx","os3.docx","os4.docx","os5.docx","os6.docx","os7.docx","os8.docx"] },
-  "C Programming":     { folder: "CProgramming",  files: ["cp1.docx","cp2.docx","cp3.docx","cp4.docx","cp5.docx","cp6.doc","cp7.doc","cp8.doc","cp9.doc","cp10.doc"] },
-  "DLD Lab":           { folder: "DLDLab",        files: ["dld1.docx","dld2.docx"] },
-  "WD File":           { folder: "WDFile",        files: [] },
-  "C File":            { folder: "CFile",         files: [] }
+  "RDBMS":            { folder: "",  files: ["rdbms1.docx","rdbms2.docx","rdbms3.docx","rdbms4.doc","rdbms5.doc","rdbms6.docx","rdbms7.docx","rdbms8.docx","rdbms9.docx","rdbms10.docx"] },
+  "Web Designing":     { folder: "",  files: ["wd1.doc","wd2.doc","wd3.doc","wd4.doc","wd5.doc","wd6.doc","wd7.doc","wd8.doc","wd9.doc","wd10.doc"] },
+  "Operating System":  { folder: "",  files: ["os1.docx","os2.docx","os3.docx","os4.docx","os5.docx","os6.docx","os7.docx","os8.docx"] },
+  "C Programming":     { folder: "",  files: ["cp1.docx","cp2.docx","cp3.docx","cp4.docx","cp5.docx","cp6.doc","cp7.doc","cp8.doc","cp9.doc","cp10.doc"] },
+  "DLD Lab":           { folder: "",  files: ["dld1.docx","dld2.docx"] },
+  "WD File":           { folder: "",  files: [] },
+  "C File":            { folder: "",  files: [] }
 };
 
 const grid = document.getElementById('grid');
@@ -246,7 +249,8 @@ function openSection(name) {
   } else {
     data.files.forEach(f => {
       const li = document.createElement('li');
-      li.innerHTML = `<span>${f}</span><a href="${data.folder}/${f}" download>Download</a>`;
+      const href = data.folder ? `${data.folder}/${f}` : f;
+      li.innerHTML = `<span>${f}</span><a href="${href}" download>Download</a>`;
       fileList.appendChild(li);
     });
   }
