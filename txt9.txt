@@ -1,0 +1,8 @@
+1. Start. 
+2. Create three boxes.
+3. Get two numbers from the user.
+4. Create buttons for add, subtract, multiply, divide, and equal. 
+5. Perform the selected arithmetic operations.
+6. Display the results in the third text box.
+7. Repeat if needed. 
+8. Stop.

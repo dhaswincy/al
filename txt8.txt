@@ -1,0 +1,8 @@
+1. Start.
+2. Create an HTML document.
+3. Add a text box and a button.
+4. Read the color entered by the user.
+5. Use JavaScript DOM to change the page background.
+6. Apply the selected color.
+7. Display the updated page.
+8. Stop.

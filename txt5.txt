@@ -1,0 +1,8 @@
+1. Start.
+2. Create an HTML file.
+3. Create an external CSS file.
+4. Link the CSS file using the <link> tag.
+5. Apply background color, text color, font, and image.
+6. Save both files.
+7. Open the HTML file in a browser.
+8. Stop.

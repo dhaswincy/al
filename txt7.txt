@@ -1,0 +1,8 @@
+1. Start.
+2. Create an HTML document.
+3. Add audio or video using media tags.
+4. Create play, pause, and stop buttons.
+5. Write a JavaScript function for each button.
+6. Connect buttons to the functions.
+7. Test the controls.
+8. Stop.

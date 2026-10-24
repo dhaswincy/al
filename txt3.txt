@@ -1,0 +1,8 @@
+1. Start.
+2. Create a HTML document.
+3. Insert a computer image using <img> tag.
+4. Make the image clickable using <a> tag.
+5. Link it to the component's web page.
+6. Save the file.
+7. Open it in a browser.
+8. Stop.

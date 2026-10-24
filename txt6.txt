@@ -1,0 +1,8 @@
+1. Start.
+2. Create a HTML page.
+3. Use the JavaScript date () object.
+4. Get hours, minutes, and seconds.
+5. Display the time in 24-hour format.
+6. Update the clock every second.
+7. Display the time.
+8. Stop.

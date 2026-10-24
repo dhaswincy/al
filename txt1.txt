@@ -1,0 +1,8 @@
+1. Start
+2. Create a HTML document.
+3. Add <h1> to <h6> headings.
+4. Display text using <b>, <u>, <i>, and <strike> tags.
+5. Use <div>, <p>, and <pre> tags.
+6. Save the files as index.html.
+7. Open it in a browser.
+8. Stop.

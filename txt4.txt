@@ -1,0 +1,8 @@
+1. Start.
+2. Create an HTML document.
+3. Create a table using <table>, <tr>, and <td> tags.
+4. Apply different border styles using internal CSS.
+5. Enter the timetable details.
+6. Save the file.
+7. Open it in a browser.
+8. Stop.

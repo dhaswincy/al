@@ -1,0 +1,8 @@
+1. Start.
+2. Create a form with username, email, password, confirm password, gender, language, and a text area.
+3. Get user input.
+4. Check that the username has at least eight characters.
+5. Verify that the email contains the @ symbol.
+6. Check whether the password and confirm password are the same.
+7. If all validations are correct, submit the form. Otherwise, display the error message.
+8. Stop.

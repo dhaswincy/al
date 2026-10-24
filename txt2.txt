@@ -1,0 +1,8 @@
+1. Start.
+2. Create separate HTML files for each language.
+3. Create the HTML page.
+4. Display the language names in a list.
+5. Add hyperlinks using <a> tag.
+6. Save all HTML files.
+7. Open the main page and click the links.
+8. Stop.

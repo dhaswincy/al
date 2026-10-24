@@ -96,7 +96,8 @@ const sections = {
   "C Programming":    { folder: "",  files: ["cp1.docx","cp2.docx","cp3.docx","cp4.docx","cp5.docx","cp6.doc","cp7.doc","cp8.doc","cp9.doc","cp10.doc"] },
   "DLD Lab":          { folder: "",  files: ["dld1.docx","dld2.docx"] },
   "WD File":          { subsections: wdFileExercises() },
-  "C File":           { subsections: makeExercises() }
+  "C File":           { subsections: makeExercises() },
+  "WD Algorithm":     { folder: "",  files: Array.from({length:10},(_,i)=>`txt${i+1}.txt`) }
 };
 
 const grid = document.getElementById('grid');
@@ -166,6 +167,7 @@ function openFiles(title, data, fromSub) {
         openHref = 'https://view.officeapps.live.com/op/view.aspx?src=' + encodeURIComponent(new URL(href, location.href).href);
       }
       li.innerHTML = `<span>${f}</span><span class="actions">` +
+        (/\.txt$/i.test(f) ? `<a href="#" onclick="copyFile('${href}',this);return false">Copy</a>` : '') +
         `<a href="${openHref}" target="_blank" rel="noopener">Open</a>` +
         `<a href="${href}" download>Download</a></span>`;
       fileList.appendChild(li);
@@ -197,6 +199,14 @@ function downloadAll() {
     i++;
     setTimeout(next, 700);
   })();
+}
+
+async function copyFile(url, el) {
+  try {
+    await navigator.clipboard.writeText(await (await fetch(url)).text());
+    el.textContent = 'Copied!';
+  } catch (e) { el.textContent = 'Failed'; }
+  setTimeout(() => el.textContent = 'Copy', 1500);
 }
 
 function goBack() {
