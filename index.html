@@ -10,227 +10,100 @@
 body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 header{padding:32px 20px 26px;text-align:center;background:var(--card);border-bottom:1px solid var(--border)}
 header h1{font-size:1.8rem;font-weight:700;letter-spacing:-.02em;color:var(--text)}
-header .tagline{margin-top:6px;font-size:.9rem;color:var(--muted)}
 main{max-width:820px;margin:0 auto;padding:28px 16px 32px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:8px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 14px;text-align:center;cursor:pointer;font-weight:600;font-size:.95rem;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:.15s}
 .card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,.08)}
-#fileView{display:none;margin-top:20px}
+#subView,#fileView{display:none;margin-top:20px}
 .back{display:inline-flex;align-items:center;gap:4px;margin-bottom:16px;color:var(--accent);cursor:pointer;font-size:.9rem;font-weight:600}
 .back:hover{text-decoration:underline}
-#fileView h2{margin-bottom:14px;font-size:1.25rem;font-weight:700}
+#subView h2,#fileView h2{margin-bottom:14px;font-size:1.25rem;font-weight:700}
 .file-list{list-style:none;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .file-list li{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-bottom:1px solid var(--border)}
 .file-list li:last-child{border-bottom:none}
 .file-list li:hover{background:#f8f8fc}
 .file-list a{color:#fff;background:var(--accent);text-decoration:none;font-size:.82rem;font-weight:600;padding:6px 14px;border-radius:7px;transition:.15s}
 .file-list a:hover{background:var(--accent-dark)}
-.empty{color:var(--muted);padding:18px;font-size:.9rem;text-align:center}
-
-/* --- Lock screen --- */
-#lockScreen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
-.lockBox{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 28px;max-width:340px;width:100%;box-shadow:0 6px 24px rgba(0,0,0,.08)}
-.lockBox h2{font-size:1.2rem;margin-bottom:6px}
-.lockBox p.sub{color:var(--muted);font-size:.85rem;margin-bottom:18px}
-.lockBox label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:6px;margin-top:14px}
-.lockBox input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:.95rem}
-.lockBox button{width:100%;margin-top:18px;padding:11px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-weight:600;font-size:.9rem;cursor:pointer;transition:.15s}
-.lockBox button:hover{background:var(--accent-dark)}
-.lockBox .linkBtn{background:none;color:var(--accent);text-decoration:underline;margin-top:12px;font-weight:500;padding:0;width:auto;display:inline-block}
-.lockBox .linkBtn:hover{background:none;color:var(--accent-dark)}
-.err{color:#c0392b;font-size:.82rem;margin-top:10px;min-height:1em}
-.ok{color:#2e7d32;font-size:.82rem;margin-top:10px;min-height:1em}
-#appRoot{display:none}
+.file-list .actions{display:flex;gap:8px}
+.toolbar{display:none;align-items:center;gap:12px;margin-bottom:12px}
+.toolbar button{border:none;background:var(--accent);color:#fff;font-weight:600;font-size:.85rem;padding:9px 18px;border-radius:8px;cursor:pointer;transition:.15s}
+.toolbar button:hover{background:var(--accent-dark)}
+.toolbar button:disabled{opacity:.6;cursor:default}
+#dlStatus{font-size:.82rem;color:var(--muted)}
+.empty{color:var(--muted);padding:18px;font-size:.9rem;text-align:center;justify-content:center!important}
 </style>
 </head>
 <body>
 
-<!-- ===================== LOCK SCREEN ===================== -->
-<div id="lockScreen">
-
-  <div class="lockBox" id="loginBox">
-    <h2>All Lab</h2>
-    <p class="sub">Enter password to continue</p>
-    <label for="pwInput">Password</label>
-    <input type="password" id="pwInput" placeholder="Enter password" autocomplete="off">
-    <button onclick="tryLogin()">Unlock</button>
-    <button class="linkBtn" onclick="showRecovery()">Forgot password?</button>
-    <div class="err" id="loginErr"></div>
-  </div>
-
-  <div class="lockBox" id="recoveryBox" style="display:none">
-    <h2>Reset Password</h2>
-    <p class="sub">Answer all 3 questions correctly</p>
-
-    <label>Who is your crush?</label>
-    <input type="text" id="a1" autocomplete="off">
-
-    <label>Which school did you study at?</label>
-    <input type="text" id="a2" autocomplete="off">
-
-    <label>Which polytechnic college are you in?</label>
-    <input type="text" id="a3" autocomplete="off">
-
-    <label>New password</label>
-    <input type="password" id="newPw" placeholder="Set a new password" autocomplete="off">
-
-    <button onclick="tryReset()">Reset Password</button>
-    <button class="linkBtn" onclick="showLogin()">Back to login</button>
-    <div class="err" id="recoveryErr"></div>
-    <div class="ok" id="recoveryOk"></div>
-  </div>
-
-</div>
-
-<!-- ===================== APP ===================== -->
-<div id="appRoot">
-
 <header><h1>All Lab</h1></header>
 
 <main>
+  <!-- Main sections -->
   <div id="sectionView">
     <div class="grid" id="grid"></div>
   </div>
 
-  <div id="fileView">
+  <!-- EX 1 - EX 10 (for WD File and C File) -->
+  <div id="subView">
     <span class="back" onclick="goBack()">&larr; Back to sections</span>
+    <h2 id="subViewTitle"></h2>
+    <div class="grid" id="subGrid"></div>
+  </div>
+
+  <!-- File list -->
+  <div id="fileView">
+    <span class="back" id="fileBack" onclick="goBack()">&larr; Back</span>
     <h2 id="fileViewTitle"></h2>
+    <div class="toolbar" id="toolbar"><button id="dlAll" onclick="downloadAll()">Download All</button><span id="dlStatus"></span></div>
     <ul class="file-list" id="fileList"></ul>
   </div>
 </main>
 
-</div>
-
 <script>
 /* =======================================================
-   PASSWORD PROTECTION
-   - Default password: 123456
-   - Forgot password -> answer 3 security questions to set a new one
-   - NOTE: this is client-side only (view-source reveals the hashed
-     values are not encrypted, just hashed with a simple hash).
-     It stops casual snooping, not a determined visitor. Do not use
-     it to protect anything truly sensitive.
-   ======================================================= */
-
-function simpleHash(str) {
-  // small, dependency-free hash (not cryptographically secure)
-  let h = 0;
-  for (let i = 0; i < str.length; i++) {
-    h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
-  }
-  return 'h' + (h >>> 0).toString(16);
-}
-
-const DEFAULTS = {
-  pwHash: simpleHash('123456'),
-  a1Hash: simpleHash('ananya'.trim().toLowerCase()),
-  a2Hash: simpleHash('ssvand3'.trim().toLowerCase()),
-  a3Hash: simpleHash('mptc'.trim().toLowerCase())
-};
-
-const STORAGE_KEY = 'allLabAuth';
-
-function getAuth() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch (e) {}
-  // first run: seed storage with defaults
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULTS));
-  return { ...DEFAULTS };
-}
-
-function saveAuth(auth) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(auth));
-}
-
-const lockScreen = document.getElementById('lockScreen');
-const appRoot = document.getElementById('appRoot');
-const loginBox = document.getElementById('loginBox');
-const recoveryBox = document.getElementById('recoveryBox');
-
-function unlockApp() {
-  lockScreen.style.display = 'none';
-  appRoot.style.display = 'block';
-}
-
-function tryLogin() {
-  const auth = getAuth();
-  const pw = document.getElementById('pwInput').value;
-  const errBox = document.getElementById('loginErr');
-  if (simpleHash(pw) === auth.pwHash) {
-    errBox.textContent = '';
-    unlockApp();
-  } else {
-    errBox.textContent = 'Incorrect password.';
-  }
-}
-
-document.getElementById('pwInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') tryLogin();
-});
-
-function showRecovery() {
-  loginBox.style.display = 'none';
-  recoveryBox.style.display = 'block';
-}
-function showLogin() {
-  recoveryBox.style.display = 'none';
-  loginBox.style.display = 'block';
-  document.getElementById('recoveryErr').textContent = '';
-  document.getElementById('recoveryOk').textContent = '';
-}
-
-function tryReset() {
-  const auth = getAuth();
-  const a1 = document.getElementById('a1').value.trim().toLowerCase();
-  const a2 = document.getElementById('a2').value.trim().toLowerCase();
-  const a3 = document.getElementById('a3').value.trim().toLowerCase();
-  const newPw = document.getElementById('newPw').value;
-  const errBox = document.getElementById('recoveryErr');
-  const okBox = document.getElementById('recoveryOk');
-  errBox.textContent = '';
-  okBox.textContent = '';
-
-  if (simpleHash(a1) !== auth.a1Hash || simpleHash(a2) !== auth.a2Hash || simpleHash(a3) !== auth.a3Hash) {
-    errBox.textContent = 'One or more answers are incorrect.';
-    return;
-  }
-  if (!newPw || newPw.length < 4) {
-    errBox.textContent = 'New password must be at least 4 characters.';
-    return;
-  }
-  auth.pwHash = simpleHash(newPw);
-  saveAuth(auth);
-  okBox.textContent = 'Password updated. You can log in now.';
-  setTimeout(showLogin, 1200);
-}
-
-/* =======================================================
    FILE BROWSER
-   Files now live in real folders next to this HTML file
-   instead of being embedded as base64 text. Add or remove
-   filenames below to match what's actually in each folder.
+   Files live in the SAME folder as this index.html (flat).
+   Add or remove filenames below to match what's actually there.
+   "WD File" and "C File" have sub-sections EX 1 - EX 10;
+   put each experiment's filenames in its "files" list.
    ======================================================= */
 
-// NOTE: files are expected to sit in the SAME folder as this index.html
-// (flat, no subfolders) — filenames are already unique across sections
-// (rdbms1, wd1, os1, cp1, dld1 ...) so this is safe.
+function makeExercises() {
+  const ex = {};
+  for (let i = 1; i <= 10; i++) ex["EX " + i] = { folder: "", files: [] };
+  return ex;
+}
+
+function wdFileExercises() {
+  const ex = makeExercises();
+  ex["EX 1"].files = ["ex1.html"];
+  ex["EX 2"].files = ["python.html","javascript.html","ex2.html","html.html","java.html","css.html","cplus.html"];
+  ex["EX 3"].files = ["components.html","ex3.html","computer.png"];
+  return ex;
+}
+
 const sections = {
   "RDBMS":            { folder: "",  files: ["rdbms1.docx","rdbms2.docx","rdbms3.docx","rdbms4.doc","rdbms5.doc","rdbms6.docx","rdbms7.docx","rdbms8.docx","rdbms9.docx","rdbms10.docx"] },
-  "Web Designing":     { folder: "",  files: ["wd1.doc","wd2.doc","wd3.doc","wd4.doc","wd5.doc","wd6.doc","wd7.doc","wd8.doc","wd9.doc","wd10.doc"] },
-  "Operating System":  { folder: "",  files: ["os1.docx","os2.docx","os3.docx","os4.docx","os5.docx","os6.docx","os7.docx","os8.docx"] },
-  "C Programming":     { folder: "",  files: ["cp1.docx","cp2.docx","cp3.docx","cp4.docx","cp5.docx","cp6.doc","cp7.doc","cp8.doc","cp9.doc","cp10.doc"] },
-  "DLD Lab":           { folder: "",  files: ["dld1.docx","dld2.docx"] },
-  "WD File":           { folder: "",  files: [] },
-  "C File":            { folder: "",  files: [] }
+  "Web Designing":    { folder: "",  files: ["wd1.doc","wd2.doc","wd3.doc","wd4.doc","wd5.doc","wd6.doc","wd7.doc","wd8.doc","wd9.doc","wd10.doc"] },
+  "Operating System": { folder: "",  files: ["os1.docx","os2.docx","os3.docx","os4.docx","os5.docx","os6.docx","os7.docx","os8.docx"] },
+  "C Programming":    { folder: "",  files: ["cp1.docx","cp2.docx","cp3.docx","cp4.docx","cp5.docx","cp6.doc","cp7.doc","cp8.doc","cp9.doc","cp10.doc"] },
+  "DLD Lab":          { folder: "",  files: ["dld1.docx","dld2.docx"] },
+  "WD File":          { subsections: wdFileExercises() },
+  "C File":           { subsections: makeExercises() }
 };
 
 const grid = document.getElementById('grid');
+const subGrid = document.getElementById('subGrid');
 const sectionView = document.getElementById('sectionView');
+const subView = document.getElementById('subView');
+const subViewTitle = document.getElementById('subViewTitle');
 const fileView = document.getElementById('fileView');
 const fileList = document.getElementById('fileList');
 const fileViewTitle = document.getElementById('fileViewTitle');
+const fileBack = document.getElementById('fileBack');
+
+let currentSection = null;
+let currentLinks = [];
 
 Object.keys(sections).forEach(name => {
   const div = document.createElement('div');
@@ -240,31 +113,90 @@ Object.keys(sections).forEach(name => {
   grid.appendChild(div);
 });
 
+function show(view) {
+  sectionView.style.display = view === 'sections' ? 'block' : 'none';
+  subView.style.display = view === 'subs' ? 'block' : 'none';
+  fileView.style.display = view === 'files' ? 'block' : 'none';
+}
+
 function openSection(name) {
+  currentSection = name;
   const data = sections[name];
-  fileViewTitle.textContent = name;
+  if (data.subsections) {
+    subViewTitle.textContent = name;
+    subGrid.innerHTML = '';
+    Object.keys(data.subsections).forEach(sub => {
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.textContent = sub;
+      div.onclick = () => openFiles(name + ' \u2013 ' + sub, data.subsections[sub], true);
+      subGrid.appendChild(div);
+    });
+    show('subs');
+  } else {
+    openFiles(name, data, false);
+  }
+}
+
+function openFiles(title, data, fromSub) {
+  fileViewTitle.textContent = title;
+  fileBack.innerHTML = fromSub ? '&larr; Back to ' + currentSection : '&larr; Back to sections';
   fileList.innerHTML = '';
+  currentLinks = data.files.map(f => data.folder ? `${data.folder}/${f}` : f);
+  document.getElementById('toolbar').style.display = data.files.length > 1 ? 'flex' : 'none';
+  document.getElementById('dlStatus').textContent = '';
+  document.getElementById('dlAll').disabled = false;
   if (!data.files.length) {
     fileList.innerHTML = '<li class="empty">No files added yet.</li>';
   } else {
     data.files.forEach(f => {
       const li = document.createElement('li');
       const href = data.folder ? `${data.folder}/${f}` : f;
-      li.innerHTML = `<span>${f}</span><a href="${href}" download>Download</a>`;
+      const canOpen = /\.(html?|png|jpe?g|gif|pdf)$/i.test(f);
+      li.innerHTML = `<span>${f}</span><span class="actions">` +
+        (canOpen ? `<a href="${href}" target="_blank" rel="noopener">Open</a>` : '') +
+        `<a href="${href}" download>Download</a></span>`;
       fileList.appendChild(li);
     });
   }
-  sectionView.style.display = 'none';
-  fileView.style.display = 'block';
+  show('files');
+}
+
+// Downloads every file in the open list, one after another (no zip)
+function downloadAll() {
+  const btn = document.getElementById('dlAll');
+  const status = document.getElementById('dlStatus');
+  const links = currentLinks.slice();
+  btn.disabled = true;
+  let i = 0;
+  (function next() {
+    if (i >= links.length) {
+      status.textContent = 'Done \u2013 ' + links.length + ' files downloaded.';
+      btn.disabled = false;
+      return;
+    }
+    status.textContent = 'Downloading ' + (i + 1) + ' of ' + links.length + '\u2026';
+    const a = document.createElement('a');
+    a.href = links[i];
+    a.download = links[i].split('/').pop();
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    i++;
+    setTimeout(next, 700);
+  })();
 }
 
 function goBack() {
-  fileView.style.display = 'none';
-  sectionView.style.display = 'block';
+  if (fileView.style.display === 'block' && sections[currentSection].subsections) {
+    show('subs');
+  } else {
+    show('sections');
+  }
 }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && fileView.style.display === 'block') goBack();
+  if (e.key === 'Escape' && sectionView.style.display !== 'block') goBack();
 });
 </script>
 
