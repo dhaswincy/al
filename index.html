@@ -152,9 +152,14 @@ function openFiles(title, data, fromSub) {
     data.files.forEach(f => {
       const li = document.createElement('li');
       const href = data.folder ? `${data.folder}/${f}` : f;
-      const canOpen = /\.(html?|png|jpe?g|gif|pdf)$/i.test(f);
+      const isWord = /\.docx?$/i.test(f);
+      let openHref = href;
+      // Word files can't open directly in a browser, so use Microsoft's online viewer
+      if (isWord && location.protocol.startsWith('http')) {
+        openHref = 'https://view.officeapps.live.com/op/view.aspx?src=' + encodeURIComponent(new URL(href, location.href).href);
+      }
       li.innerHTML = `<span>${f}</span><span class="actions">` +
-        (canOpen ? `<a href="${href}" target="_blank" rel="noopener">Open</a>` : '') +
+        `<a href="${openHref}" target="_blank" rel="noopener">Open</a>` +
         `<a href="${href}" download>Download</a></span>`;
       fileList.appendChild(li);
     });
