@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form with Validation</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+margin: 20px;
+}
+input, textarea, button {
+margin: 5px 0;
+display: block;
+}
+label {
+margin-top: 10px;
+}
+div
+{
+margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+<h1>Registration Form</h1>
+<form id="registrationForm" onsubmit="return validateForm()">
+<label for="username">Username:</label>
+<input type="text" id="username" name="username" required>
+<label for="email">Email:</label>
+<input type="email" id="email" name="email" required>
+<label for="password">Password:</label>
+<input type="password" id="password" name="password" required>
+<label for="confirmPassword">Retype Password:</label>
+<input type="password" id="confirmPassword" name="confirmPassword" required>
+<label>Gender:</label><input type="radio" id="male" name="gender" value="male">
+<label for="male">Male:</label>
+<input type="radio" id="female" name="gender" value="female">
+<label for="female">Female:</label>
+<br>
+<label>Languages Known:</label>
+<input type="checkbox" id="english" name="languages" value="english">
+<label for="english">English</label>
+<input type="checkbox" id="spanish" name="languages" value="spanish">
+<label for="spanish">Spanish</label>
+<input type="checkbox" id="french" name="languages" value="french">
+<label for="french">French</label>
+<br>
+<label for="description">Describe Yourself:</label>
+<textarea id="description" name="description" rows="4" cols="50"></textarea>
+<button type="submit">Submit</button>
+</form>
+<script>
+function validateForm() {
+// Get form values
+const username = document.getElementById('username').value;
+const email = document.getElementById('email').value;
+const password = document.getElementById('password').value;
+const confirmPassword = document.getElementById('confirmPassword').value;
+// Validate username length
+if (username.length < 8) {
+alert('Username must be at least 8 characters long.');
+return false;
+}
+// Validate email format
+if (!email.includes('@')) {
+alert('Email must contain @ symbol.');
+return false;
+}
+// Validate password match
+if (password !== confirmPassword) {
+alert('Passwords do not match.');
+return false;
+}
+// If all validations pass, allow form submission
+return true;
+}
+</script>
+</body>
+</html>

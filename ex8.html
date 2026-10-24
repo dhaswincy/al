@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Change Background Colour</title>
+</head>
+<body>
+<h1>Change Background Colour</h1>
+<input type-"text" id="colourInput" placeholder="Enter a color or hex code in #FFFFFF format">
+<button onclick="changeColour()">Change Colour</button>
+<script>
+function changeColour()
+{
+const color = document.getElementById('colourInput').value;
+document.body.style.backgroundColor = color;
+}
+</script>
+</body>
+</html>
